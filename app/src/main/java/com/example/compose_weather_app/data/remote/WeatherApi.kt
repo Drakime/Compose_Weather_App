@@ -1,6 +1,6 @@
 package com.example.compose_weather_app.data.remote
 
-import com.example.compose_weather_app.data.dto.WeatherDto
+import com.example.compose_weather_app.data.remote.dto.WeatherDto
 import retrofit2.http.GET
 
 interface WeatherApi {
