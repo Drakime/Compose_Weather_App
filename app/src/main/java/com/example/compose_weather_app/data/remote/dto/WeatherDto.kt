@@ -1,6 +1,7 @@
 package com.example.compose_weather_app.data.remote.dto
 
 
+import com.example.compose_weather_app.domain.model.WeatherData
 import com.squareup.moshi.Json
 
 data class WeatherDto(
@@ -27,3 +28,9 @@ data class WeatherDto(
     @Json(name = "utc_offset_seconds")
     val utcOffsetSeconds: Int
 )
+
+fun WeatherDto.toWeatherData(): WeatherData {
+    return WeatherData(
+        timezone = timezone
+    )
+}
