@@ -19,6 +19,13 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -31,14 +38,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-    }
-
-    buildFeatures {
-        compose true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.2"
     }
 }
 
