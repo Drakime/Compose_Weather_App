@@ -2,10 +2,11 @@ package com.example.compose_weather_app.domain.model
 
 import com.example.compose_weather_app.data.remote.dto.Daily
 import com.example.compose_weather_app.data.remote.dto.Hourly
+import com.example.compose_weather_app.domain.weather.WeatherType
 
 data class WeatherData(
     val currentTemperature: String,
-    val currentWeatherCode: String,
+    val currentWeatherCode: WeatherType,
     val sunrise: List<String>,
     val sunset: List<String>,
     val dailyMaxTemperature: List<Double>,

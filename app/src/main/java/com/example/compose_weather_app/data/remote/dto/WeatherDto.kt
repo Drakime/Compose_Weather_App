@@ -4,6 +4,7 @@ package com.example.compose_weather_app.data.remote.dto
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.compose_weather_app.domain.model.WeatherData
+import com.example.compose_weather_app.domain.weather.WeatherType
 import com.squareup.moshi.Json
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -51,7 +52,7 @@ fun WeatherDto.toWeatherData(): WeatherData {
 
     return WeatherData(
         currentTemperature = currentTemperature,
-        currentWeatherCode = currentWeatherCode,
+        currentWeatherCode = WeatherType.fromWeatherCode(currentWeatherCode.toInt()),
         sunrise = daily.sunrise,
         sunset = daily.sunset,
         dailyMaxTemperature = daily.temperature2mMax,
