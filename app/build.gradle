@@ -87,4 +87,8 @@ dependencies {
     // Android Studio Preview support
     implementation 'androidx.compose.ui:ui-tooling-preview'
     debugImplementation 'androidx.compose.ui:ui-tooling'
+
+    // Lottie
+    def lottie_version = "6.0.0"
+    implementation "com.airbnb.android:lottie-compose:$lottie_version"
 }
