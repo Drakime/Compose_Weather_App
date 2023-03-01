@@ -1,8 +1,13 @@
 package com.example.compose_weather_app.data.remote.dto
 
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.compose_weather_app.domain.model.WeatherData
 import com.squareup.moshi.Json
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
 
 data class WeatherDto(
     @Json(name = "daily")
@@ -29,8 +34,31 @@ data class WeatherDto(
     val utcOffsetSeconds: Int
 )
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun WeatherDto.toWeatherData(): WeatherData {
+
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd" + "'T'" + "HH:00")
+    val currentTime = LocalDateTime.now().format(formatter)
+    var currentTemperature = ""
+    var currentWeatherCode = ""
+
+    hourly.time.forEachIndexed { index, element ->
+        if (hourly.time[index] == currentTime) {
+            currentTemperature = hourly.temperature2m[index].toString()
+            currentWeatherCode = hourly.weathercode[index].toString()
+        }
+    }
+
     return WeatherData(
-        timezone = timezone
+        currentTemperature = currentTemperature,
+        currentWeatherCode = currentWeatherCode,
+        sunrise = daily.sunrise,
+        sunset = daily.sunset,
+        dailyMaxTemperature = daily.temperature2mMax,
+        dailyMinTemperature = daily.temperature2mMin,
+        dailyMaxWindSpeed = daily.windspeed10mMax,
+        dailyWeatherCode = daily.weathercode,
+        latitude = latitude,
+        longitude = longitude
     )
 }
