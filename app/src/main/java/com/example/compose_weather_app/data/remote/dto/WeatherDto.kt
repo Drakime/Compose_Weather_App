@@ -2,10 +2,12 @@ package com.example.compose_weather_app.data.remote.dto
 
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.compose_weather_app.domain.model.WeatherData
 import com.example.compose_weather_app.domain.weather.WeatherType
 import com.squareup.moshi.Json
+import java.time.Clock
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
@@ -41,18 +43,23 @@ fun WeatherDto.toWeatherData(): WeatherData {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd" + "'T'" + "HH:00")
     val currentTime = LocalDateTime.now().format(formatter)
     var currentTemperature = ""
-    var currentWeatherCode = ""
+    var currentWeatherCode = 0
 
-    hourly.time.forEachIndexed { index, element ->
-        if (hourly.time[index] == currentTime) {
+    for (hour in hourly.time) {
+        var index = hourly.time.indexOf(hour)
+
+        if (hour.equals(currentTime)) {
             currentTemperature = hourly.temperature2m[index].toString()
-            currentWeatherCode = hourly.weathercode[index].toString()
+            currentWeatherCode = hourly.weathercode[index]
+            break
+        } else {
+            currentTemperature = "N/A"
         }
     }
 
     return WeatherData(
         currentTemperature = currentTemperature,
-        currentWeatherCode = WeatherType.fromWeatherCode(currentWeatherCode.toInt()),
+        currentWeatherCode = WeatherType.fromWeatherCode(currentWeatherCode),
         sunrise = daily.sunrise,
         sunset = daily.sunset,
         dailyMaxTemperature = daily.temperature2mMax,

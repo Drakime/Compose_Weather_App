@@ -1,5 +1,7 @@
 package com.example.compose_weather_app.ui.presentation.weather_display
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -11,6 +13,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class WeatherDisplayViewModel @Inject constructor(
     private val getWeatherDataUseCase: GetWeatherDataUseCase
@@ -23,6 +26,7 @@ class WeatherDisplayViewModel @Inject constructor(
         getWeather()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun getWeather() {
         getWeatherDataUseCase().onEach { result ->
             when (result) {
