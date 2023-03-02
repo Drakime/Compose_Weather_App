@@ -11,6 +11,7 @@ import java.time.Clock
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
+import kotlin.math.roundToInt
 
 data class WeatherDto(
     @Json(name = "daily")
@@ -49,7 +50,7 @@ fun WeatherDto.toWeatherData(): WeatherData {
         var index = hourly.time.indexOf(hour)
 
         if (hour.equals(currentTime)) {
-            currentTemperature = hourly.temperature2m[index].toString()
+            currentTemperature = hourly.temperature2m[index].roundToInt().toString()
             currentWeatherCode = hourly.weathercode[index]
             break
         } else {
