@@ -8,6 +8,7 @@ import com.example.compose_weather_app.domain.model.WeatherData
 import com.example.compose_weather_app.domain.weather.WeatherType
 import com.squareup.moshi.Json
 import java.time.Clock
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
@@ -45,11 +46,13 @@ fun WeatherDto.toWeatherData(): WeatherData {
     val currentTime = LocalDateTime.now().format(formatter)
     var currentTemperature = ""
     var currentWeatherCode = 0
+    var sunrises = mutableListOf<String>()
+    var sunsets = mutableListOf<String>()
 
     for (hour in hourly.time) {
         var index = hourly.time.indexOf(hour)
 
-        if (hour.equals(currentTime)) {
+        if (hour == currentTime) {
             currentTemperature = hourly.temperature2m[index].roundToInt().toString()
             currentWeatherCode = hourly.weathercode[index]
             break
@@ -58,11 +61,24 @@ fun WeatherDto.toWeatherData(): WeatherData {
         }
     }
 
+    val sunriseSunsetFormatter = DateTimeFormatter.ofPattern("HH:mm")
+    for (sunrise in daily.sunrise) {
+        val dateTime = LocalDateTime.parse(sunrise, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        val formattedSunrise = dateTime.format(sunriseSunsetFormatter)
+        sunrises.add(formattedSunrise)
+    }
+
+    for (sunset in daily.sunset) {
+        val dateTime = LocalDateTime.parse(sunset, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        val formattedSunset = dateTime.format(sunriseSunsetFormatter)
+        sunsets.add(formattedSunset)
+    }
+
     return WeatherData(
         currentTemperature = currentTemperature,
         currentWeatherCode = WeatherType.fromWeatherCode(currentWeatherCode),
-        sunrise = daily.sunrise,
-        sunset = daily.sunset,
+        sunrises = sunrises,
+        sunsets = sunsets,
         dailyMaxTemperature = daily.temperature2mMax,
         dailyMinTemperature = daily.temperature2mMin,
         dailyMaxWindSpeed = daily.windspeed10mMax,

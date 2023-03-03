@@ -7,8 +7,8 @@ import com.example.compose_weather_app.domain.weather.WeatherType
 data class WeatherData(
     val currentTemperature: String,
     val currentWeatherCode: WeatherType,
-    val sunrise: List<String>,
-    val sunset: List<String>,
+    val sunrises: List<String>,
+    val sunsets: List<String>,
     val dailyMaxTemperature: List<Double>,
     val dailyMinTemperature: List<Double>,
     val dailyMaxWindSpeed: List<Double>,
