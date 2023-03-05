@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,14 +36,14 @@ fun WeatherDisplaySunriseSunsetCard(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 SunriseLoader()
-                Text(text = "Sunrise")
+                Text(text = "Sunrise", fontWeight = FontWeight.Bold)
                 Text(text = weatherData.sunrises[0], textAlign = TextAlign.Center)
             }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 SunsetLoader()
-                Text(text = "Sunset")
+                Text(text = "Sunset", fontWeight = FontWeight.Bold)
                 Text(text = weatherData.sunsets[0], textAlign = TextAlign.Center)
             }
         }
@@ -97,14 +98,14 @@ fun WeatherDisplaySunriseSunsetCardPreview(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 SunriseLoader()
-                Text(text = "Sunrise")
+                Text(text = "Sunrise", fontWeight = FontWeight.Bold)
                 Text(text = "00:00")
             }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 SunsetLoader()
-                Text(text = "Sunrise")
+                Text(text = "Sunset", fontWeight = FontWeight.Bold)
                 Text(text = "00:00")
             }
         }
