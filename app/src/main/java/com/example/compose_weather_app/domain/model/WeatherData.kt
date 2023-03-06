@@ -9,6 +9,7 @@ data class WeatherData(
     val currentWeatherCode: WeatherType,
     val sunrises: List<String>,
     val sunsets: List<String>,
+    val precipitation: List<Double>,
     val dailyMaxTemperature: List<Double>,
     val dailyMinTemperature: List<Double>,
     val dailyMaxWindSpeed: List<Double>,

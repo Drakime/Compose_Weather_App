@@ -79,6 +79,7 @@ fun WeatherDto.toWeatherData(): WeatherData {
         currentWeatherCode = WeatherType.fromWeatherCode(currentWeatherCode),
         sunrises = sunrises,
         sunsets = sunsets,
+        precipitation = daily.precipitationSum,
         dailyMaxTemperature = daily.temperature2mMax,
         dailyMinTemperature = daily.temperature2mMin,
         dailyMaxWindSpeed = daily.windspeed10mMax,
