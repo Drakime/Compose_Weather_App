@@ -28,7 +28,9 @@ fun WeatherDisplaySunriseSunsetCard(
         )
     ) {
         Row(
-            modifier.fillMaxWidth(),
+            modifier
+                .fillMaxWidth()
+                .padding(5.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -90,7 +92,8 @@ fun WeatherDisplaySunriseSunsetCardPreview(
         )
     ) {
         Row(
-            modifier.fillMaxWidth(),
+            modifier
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {

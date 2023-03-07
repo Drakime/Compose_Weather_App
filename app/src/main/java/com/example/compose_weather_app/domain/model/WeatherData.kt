@@ -13,7 +13,7 @@ data class WeatherData(
     val dailyMaxTemperature: List<Double>,
     val dailyMinTemperature: List<Double>,
     val dailyMaxWindSpeed: List<Double>,
-    val dailyWeatherCode: List<Int>,
+    val dailyWeatherCode: List<WeatherType>,
     val latitude: Double,
     val longitude: Double
 )

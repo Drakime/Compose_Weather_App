@@ -46,6 +46,7 @@ fun WeatherDto.toWeatherData(): WeatherData {
     val currentTime = LocalDateTime.now().format(formatter)
     var currentTemperature = ""
     var currentWeatherCode = 0
+    var dailyWeatherCode = mutableListOf<WeatherType>()
     var sunrises = mutableListOf<String>()
     var sunsets = mutableListOf<String>()
 
@@ -59,6 +60,10 @@ fun WeatherDto.toWeatherData(): WeatherData {
         } else {
             currentTemperature = "N/A"
         }
+    }
+
+    for (weatherCode in daily.weathercode) {
+        dailyWeatherCode.add(WeatherType.fromWeatherCode(weatherCode))
     }
 
     val sunriseSunsetFormatter = DateTimeFormatter.ofPattern("HH:mm")
@@ -83,7 +88,7 @@ fun WeatherDto.toWeatherData(): WeatherData {
         dailyMaxTemperature = daily.temperature2mMax,
         dailyMinTemperature = daily.temperature2mMin,
         dailyMaxWindSpeed = daily.windspeed10mMax,
-        dailyWeatherCode = daily.weathercode,
+        dailyWeatherCode = dailyWeatherCode,
         latitude = latitude,
         longitude = longitude
     )
