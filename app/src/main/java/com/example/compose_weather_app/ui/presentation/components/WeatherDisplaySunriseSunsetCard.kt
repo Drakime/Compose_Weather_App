@@ -22,10 +22,7 @@ fun WeatherDisplaySunriseSunsetCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 10.dp
-        )
+        modifier.fillMaxWidth()
     ) {
         Row(
             modifier

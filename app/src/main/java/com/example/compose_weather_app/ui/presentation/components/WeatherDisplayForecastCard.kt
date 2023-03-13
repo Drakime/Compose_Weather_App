@@ -1,8 +1,6 @@
 package com.example.compose_weather_app.ui.presentation.components
 
-import android.os.Build
 import androidx.annotation.RawRes
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Card
@@ -21,7 +19,6 @@ import java.time.LocalDate
 import java.util.*
 import kotlin.math.roundToInt
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun WeatherDisplayForecastCard(
     weatherData: WeatherData,
@@ -30,10 +27,7 @@ fun WeatherDisplayForecastCard(
     Card(
         modifier
             .fillMaxWidth()
-            .padding(0.dp, 10.dp, 0.dp, 0.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 10.dp
-        )
+            .padding(0.dp, 10.dp, 0.dp, 0.dp)
     ) {
         LazyRow() {
             items(weatherData.dailyMaxTemperature.drop(1).size) { item ->
@@ -71,7 +65,6 @@ fun DailyTemperatureLoader(@RawRes iconRes: Int) {
 // https://stackoverflow.com/a/67418587
 //
 // Returns a list of dates between two dates, as list collection
-@RequiresApi(Build.VERSION_CODES.O)
 fun getDates(inputDate: LocalDate = LocalDate.now()): List<String> {
     var dates = ArrayList<String>()
     val input = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())

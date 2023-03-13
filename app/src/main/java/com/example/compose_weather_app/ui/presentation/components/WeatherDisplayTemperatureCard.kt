@@ -29,10 +29,7 @@ fun WeatherDisplayTemperatureCard(
 ) {
     Card(
         modifier
-            .fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 10.dp
-        )
+            .fillMaxWidth()
     ) {
         Row(
             modifier.fillMaxWidth(),

@@ -23,10 +23,7 @@ fun WeatherDisplayWindCard(
     Card(
         modifier
             .fillMaxWidth()
-            .padding(0.dp, 10.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 10.dp
-        )
+            .padding(0.dp, 10.dp)
     ) {
         Row(
             modifier.fillMaxWidth(),
