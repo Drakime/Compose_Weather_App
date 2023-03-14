@@ -10,11 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.compose_weather_app.ui.presentation.components.*
 
 @Composable
 fun WeatherDisplayScreen(
-    viewModel: WeatherDisplayViewModel = hiltViewModel()
+    viewModel: WeatherDisplayViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     val state = viewModel.state.value
     val scrollState = rememberScrollState()
@@ -22,7 +24,7 @@ fun WeatherDisplayScreen(
     state.weather?.let {
         Column {
             Row() {
-                WeatherDisplayAppBar()
+                WeatherDisplayAppBar(navController)
             }
             Row() {
                 Column(

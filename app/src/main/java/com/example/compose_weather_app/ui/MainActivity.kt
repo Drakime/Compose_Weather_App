@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.compose_weather_app.ui.presentation.Screen
+import com.example.compose_weather_app.ui.presentation.search_display.SearchDisplayScreen
 import com.example.compose_weather_app.ui.presentation.weather_display.WeatherDisplayScreen
 import com.example.compose_weather_app.ui.theme.Material3Theme
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +34,12 @@ class MainActivity : AppCompatActivity() {
                         composable(
                             route = Screen.WeatherDisplayScreen.route
                         ) {
-                            WeatherDisplayScreen()
+                            WeatherDisplayScreen(navController = navController)
+                        }
+                        composable(
+                            route = Screen.SearchDisplayScreen.route
+                        ) {
+                            SearchDisplayScreen(navController = navController)
                         }
                     }
                 }
