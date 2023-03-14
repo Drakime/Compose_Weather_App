@@ -1,17 +1,11 @@
 package com.example.compose_weather_app.data.remote.dto
 
 
-import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
 import com.example.compose_weather_app.domain.model.WeatherData
 import com.example.compose_weather_app.domain.weather.WeatherType
 import com.squareup.moshi.Json
-import java.time.Clock
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeFormatterBuilder
 import kotlin.math.roundToInt
 
 data class WeatherDto(
@@ -39,7 +33,6 @@ data class WeatherDto(
     val utcOffsetSeconds: Int
 )
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun WeatherDto.toWeatherData(): WeatherData {
 
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd" + "'T'" + "HH:00")

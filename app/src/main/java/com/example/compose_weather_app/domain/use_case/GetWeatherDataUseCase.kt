@@ -1,7 +1,5 @@
 package com.example.compose_weather_app.domain.use_case
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.example.compose_weather_app.common.Resource
 import com.example.compose_weather_app.data.remote.dto.toWeatherData
 import com.example.compose_weather_app.domain.model.WeatherData
@@ -15,7 +13,6 @@ import javax.inject.Inject
 class GetWeatherDataUseCase @Inject constructor(
     private val repository: WeatherRepository
 ) {
-    @RequiresApi(Build.VERSION_CODES.O)
     operator fun invoke(): Flow<Resource<WeatherData>> = flow {
         try {
             emit(Resource.Loading())

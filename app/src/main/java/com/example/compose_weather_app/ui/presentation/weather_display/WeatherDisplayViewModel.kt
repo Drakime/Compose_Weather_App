@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class WeatherDisplayViewModel @Inject constructor(
     private val getWeatherDataUseCase: GetWeatherDataUseCase

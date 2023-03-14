@@ -1,7 +1,5 @@
 package com.example.compose_weather_app.domain.model
 
-import com.example.compose_weather_app.data.remote.dto.Daily
-import com.example.compose_weather_app.data.remote.dto.Hourly
 import com.example.compose_weather_app.domain.weather.WeatherType
 
 data class WeatherData(
