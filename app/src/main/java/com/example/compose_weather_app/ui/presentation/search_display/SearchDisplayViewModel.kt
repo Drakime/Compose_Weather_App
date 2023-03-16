@@ -1,14 +1,44 @@
 package com.example.compose_weather_app.ui.presentation.search_display
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.compose_weather_app.common.Resource
+import com.example.compose_weather_app.domain.use_case.GetCityDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
 @OptIn(FlowPreview::class)
-class SearchDisplayViewModel : ViewModel() {
+class SearchDisplayViewModel @Inject constructor(
+    private val getCityDataUseCase: GetCityDataUseCase
+) : ViewModel() {
+
+    private val _state = mutableStateOf(SearchDisplayState())
+
+    init {
+        getCities()
+    }
+
+    private fun getCities() {
+        getCityDataUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = SearchDisplayState(cities = (result.data))
+                }
+                is Resource.Error -> {
+                    _state.value = SearchDisplayState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+                is Resource.Loading -> {
+                    _state.value = SearchDisplayState(isLoading = true)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
 
     private val _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()

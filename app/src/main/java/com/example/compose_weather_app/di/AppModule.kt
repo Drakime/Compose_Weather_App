@@ -1,8 +1,11 @@
 package com.example.compose_weather_app.di
 
 import com.example.compose_weather_app.common.Constants
+import com.example.compose_weather_app.data.remote.CityApi
 import com.example.compose_weather_app.data.remote.WeatherApi
+import com.example.compose_weather_app.data.repository.CityRepositoryImpl
 import com.example.compose_weather_app.data.repository.WeatherRepositoryImpl
+import com.example.compose_weather_app.domain.repository.CityRepository
 import com.example.compose_weather_app.domain.repository.WeatherRepository
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -36,6 +39,22 @@ object AppModule {
     @Singleton
     fun provideWeatherRepository(api: WeatherApi): WeatherRepository {
         return WeatherRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCityApi(): CityApi {
+        return Retrofit.Builder()
+            .baseUrl(Constants.CITIES_BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+            .create(CityApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCityRepository(api: CityApi): CityRepository {
+        return CityRepositoryImpl(api)
     }
 
 }

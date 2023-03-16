@@ -25,7 +25,6 @@ class WeatherDisplayViewModel @Inject constructor(
         getWeather()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun getWeather() {
         getWeatherDataUseCase().onEach { result ->
             when (result) {
