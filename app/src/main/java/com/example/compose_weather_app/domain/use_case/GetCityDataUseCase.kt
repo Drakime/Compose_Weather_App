@@ -12,11 +12,10 @@ import javax.inject.Inject
 class GetCityDataUseCase @Inject constructor(
     private val repository: CityRepository
 ) {
-
-    operator fun invoke(): Flow<Resource<List<CityDto>>> = flow {
+    operator fun invoke(location: String): Flow<Resource<CityDto>> = flow {
         try {
             emit(Resource.Loading())
-            val cityData = repository.getCities()
+            val cityData = repository.getCities(location)
             emit(Resource.Success(cityData))
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
