@@ -1,32 +1,34 @@
 package com.example.compose_weather_app.ui.presentation.search_display
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.compose_weather_app.common.Resource
+import com.example.compose_weather_app.data.remote.dto.Result
+import com.example.compose_weather_app.domain.repository.WeatherScreenPreferencesRepository
 import com.example.compose_weather_app.domain.use_case.GetCityDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class)
+@HiltViewModel
 class SearchDisplayViewModel @Inject constructor(
-    private val getCityDataUseCase: GetCityDataUseCase
+    private val getCityDataUseCase: GetCityDataUseCase,
+    private val weatherScreenPreferencesRepository: WeatherScreenPreferencesRepository,
 ) : ViewModel() {
 
     private val _state = mutableStateOf(SearchDisplayState())
 
-    init {
-        getCities()
-    }
-
-    private fun getCities() {
-        getCityDataUseCase().onEach { result ->
+    private fun getCities(location: String) {
+        getCityDataUseCase.invoke(location).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     _state.value = SearchDisplayState(cities = (result.data))
+                    cities.value = _state.value.cities?.results!!
                 }
                 is Resource.Error -> {
                     _state.value = SearchDisplayState(
@@ -40,57 +42,36 @@ class SearchDisplayViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private val _searchText = MutableStateFlow("")
-    val searchText = _searchText.asStateFlow()
+    private var _searchText = mutableStateOf("")
+    val searchText = _searchText
 
     private val _isSearching = MutableStateFlow(false)
     val isSearching = _isSearching.asStateFlow()
 
-    private val _cities = MutableStateFlow(allCities)
-    val cities = searchText
-        .debounce(500L)
-        .onEach { _isSearching.update { true } }
-        .combine(_cities) { text, cities ->
-            if (text.isBlank()) {
-                cities
-            } else {
-                delay(1000L)
-                cities.filter {
-                    it.doesMatchSearchQuery(text)
-                }
-            }
-        }
-        .onEach { _isSearching.update { false } }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            _cities.value
-        )
+    val cities: MutableState<List<Result>> = mutableStateOf(listOf())
 
     fun onSearchTextChange(text: String) {
         _searchText.value = text
     }
-}
 
-data class City(
-    val name: String
-) {
-    fun doesMatchSearchQuery(query: String): Boolean {
-        val matchingCombinations = listOf(
-            "$name"
-        )
-
-        return matchingCombinations.any {
-            it.contains(query, ignoreCase = true)
+    fun searchLocation(location: String) {
+        if (location == "") {
+            return
+        } else {
+            getCities(location)
         }
     }
-}
 
-private val allCities = listOf(
-    City(name = "London"),
-    City(name = "Leeds"),
-    City(name = "Manchester"),
-    City(name = "Brighton"),
-    City(name = "Tokyo"),
-    City(name = "Norwich"),
-)
+    fun updateLocation(
+        locationKey: String = "location",
+        locationValue: String,
+        longitudeKey: String = "longitude",
+        longitudeValue: String,
+        latitudeKey: String = "latitude",
+        latitudeValue: String
+    ) = runBlocking {
+        weatherScreenPreferencesRepository.putString(locationKey, locationValue)
+        weatherScreenPreferencesRepository.putString(longitudeKey, longitudeValue)
+        weatherScreenPreferencesRepository.putString(latitudeKey, latitudeValue)
+    }
+}
