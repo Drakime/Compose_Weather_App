@@ -30,6 +30,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
@@ -91,4 +92,7 @@ dependencies {
     // Lottie
     def lottie_version = "6.0.0"
     implementation "com.airbnb.android:lottie-compose:$lottie_version"
+
+    // DataStore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 }
