@@ -13,7 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -24,6 +26,9 @@ fun SearchDisplayScreen(
 ) {
     val searchText = viewModel.searchText
     val cities = viewModel.cities.value
+    val isSearching by viewModel.isSearching.collectAsState()
+
+    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -34,54 +39,58 @@ fun SearchDisplayScreen(
             value = searchText.value,
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-            keyboardActions = KeyboardActions(onSearch = { viewModel.searchLocation(searchText.value) }),
+            keyboardActions = KeyboardActions(onSearch = {
+                scope.launch {
+                    viewModel.searchLocation(
+                        searchText.value
+                    )
+                }
+            }),
             onValueChange = viewModel::onSearchTextChange,
             modifier = Modifier.fillMaxWidth(),
             placeholder = { Text(text = "Search") }
         )
         Spacer(modifier = Modifier.height(16.dp))
-//        if (isSearching) {
-//            Box(modifier = Modifier.fillMaxSize()) {
-//                CircularProgressIndicator(
-//                    modifier = Modifier.align(Alignment.Center)
-//                )
-//            }
-//        } else {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) {
-            if (cities.isNotEmpty()) {
-                items(cities) { city ->
-                    Box(
-                        modifier = Modifier
-                            .clickable(onClick = { /* TODO */ })
-                            .padding(bottom = 16.dp)
-                    ) {
-                        Column {
-                            Text(
-                                text = city.name,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                            )
-                            Text(
-                                text = city.country,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                            )
-                        }
-                    }
-                }
-            } else if (cities.isEmpty() && searchText.value != "") {
-                item {
-                    Box {
-                        Text(
-                            text = "Location not found",
+        if (isSearching) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        } else {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) {
+                if (cities.isNotEmpty()) {
+                    items(cities) { city ->
+                        Box(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .align(Alignment.Center)
-                        )
+                                .clickable(onClick = { /* TODO */ })
+                                .padding(bottom = 16.dp)
+                        ) {
+                            Column {
+                                Text(
+                                    text = city.name,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                )
+                                if (city.admin1 != "") {
+                                    Text(
+                                        text = "${city.country}, ${city.admin1}",
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                    )
+                                } else {
+                                    Text(
+                                        text = city.country,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }

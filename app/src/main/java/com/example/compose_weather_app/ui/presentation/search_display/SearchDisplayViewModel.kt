@@ -9,12 +9,11 @@ import com.example.compose_weather_app.data.remote.dto.Result
 import com.example.compose_weather_app.domain.repository.WeatherScreenPreferencesRepository
 import com.example.compose_weather_app.domain.use_case.GetCityDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-@OptIn(FlowPreview::class)
 @HiltViewModel
 class SearchDisplayViewModel @Inject constructor(
     private val getCityDataUseCase: GetCityDataUseCase,
@@ -54,12 +53,11 @@ class SearchDisplayViewModel @Inject constructor(
         _searchText.value = text
     }
 
-    fun searchLocation(location: String) {
-        if (location == "") {
-            return
-        } else {
-            getCities(location)
-        }
+    suspend fun searchLocation(location: String) {
+        _isSearching.update { true }
+        getCities(location)
+        delay(1000)
+        _isSearching.update { false }
     }
 
     fun updateLocation(
