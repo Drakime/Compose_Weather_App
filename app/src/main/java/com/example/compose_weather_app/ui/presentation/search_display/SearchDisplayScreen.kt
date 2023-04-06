@@ -67,7 +67,13 @@ fun SearchDisplayScreen(
                     items(cities) { city ->
                         Box(
                             modifier = Modifier
-                                .clickable(onClick = { /* TODO */ })
+                                .clickable(onClick = {
+                                    viewModel.updateLocation(
+                                        latitudeValue = city.latitude.toString(),
+                                        longitudeValue = city.longitude.toString(),
+                                        locationValue = city.name
+                                    )
+                                })
                                 .padding(bottom = 16.dp)
                         ) {
                             Column {

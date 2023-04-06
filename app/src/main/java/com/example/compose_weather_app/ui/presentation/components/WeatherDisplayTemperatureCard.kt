@@ -8,6 +8,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,12 +26,21 @@ import com.example.compose_weather_app.domain.model.WeatherData
 @Composable
 fun WeatherDisplayTemperatureCard(
     weatherData: WeatherData,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    location: MutableState<String>,
 ) {
     Card(
         modifier
             .fillMaxWidth()
     ) {
+        Row(
+            modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            Text(text = location.value, fontSize = 30.sp, fontWeight = FontWeight.Bold)
+        }
         Row(
             modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
@@ -48,11 +58,17 @@ fun WeatherDisplayTemperatureCard(
             }
         }
         Row(
-            modifier.fillMaxWidth().padding(10.dp),
+            modifier
+                .fillMaxWidth()
+                .padding(10.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = weatherData.currentWeatherCode.weatherDesc, fontSize = 30.sp, fontWeight = FontWeight.Bold)
+            Text(
+                text = weatherData.currentWeatherCode.weatherDesc,
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }

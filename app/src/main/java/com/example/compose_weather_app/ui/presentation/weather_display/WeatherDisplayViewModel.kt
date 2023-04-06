@@ -1,5 +1,6 @@
 package com.example.compose_weather_app.ui.presentation.weather_display
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,7 @@ import com.example.compose_weather_app.common.Resource
 import com.example.compose_weather_app.domain.repository.WeatherScreenPreferencesRepository
 import com.example.compose_weather_app.domain.use_case.GetWeatherDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -21,11 +23,10 @@ class WeatherDisplayViewModel @Inject constructor(
     private val _state = mutableStateOf(WeatherDisplayState())
     val state: State<WeatherDisplayState> = _state
 
-    init {
-        getWeather()
-    }
+    private var _location = mutableStateOf("")
+    val location = _location
 
-    private fun getWeather() {
+    fun getWeather() {
         getWeatherDataUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
@@ -41,5 +42,24 @@ class WeatherDisplayViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    suspend fun getLocation() {
+        _location.value = weatherScreenPreferencesRepository.getString("location").toString()
+        Log.d("Test", "$_location WeatherDisplayViewModel")
+        Log.d("Test", weatherScreenPreferencesRepository.getString("latitude").toString())
+        Log.d("Test", weatherScreenPreferencesRepository.getString("longitude").toString())
+    }
+
+    suspend fun checkDataStore() {
+        if (weatherScreenPreferencesRepository.getString("location") == null) {
+            weatherScreenPreferencesRepository.putString("location", "Leeds")
+            weatherScreenPreferencesRepository.putString("latitude", "51.51")
+            weatherScreenPreferencesRepository.putString("longitude", "-0.13")
+            getWeather()
+            getLocation()
+        } else {
+            return
+        }
     }
 }

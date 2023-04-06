@@ -14,15 +14,7 @@ class WeatherRepositoryImpl @Inject constructor(
         val lat = weatherScreenPreferencesRepositoryImpl.getString("latitude")
         val long = weatherScreenPreferencesRepositoryImpl.getString("longitude")
 
-        val response: WeatherDto =
-            if (lat?.let { weatherScreenPreferencesRepositoryImpl.getString(it) } != null
-                && long?.let { weatherScreenPreferencesRepositoryImpl.getString(it) } != null) {
-                api.getWeather(latitude = lat, longitude = long)
-            } else {
-                api.getWeather()
-            }
-
-        return response
+        return api.getWeather(latitude = lat.toString(), longitude = long.toString())
     }
 
 }

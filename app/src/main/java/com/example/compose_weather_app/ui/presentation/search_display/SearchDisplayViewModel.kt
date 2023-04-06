@@ -1,5 +1,6 @@
 package com.example.compose_weather_app.ui.presentation.search_display
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -54,6 +55,10 @@ class SearchDisplayViewModel @Inject constructor(
     }
 
     suspend fun searchLocation(location: String) {
+        Log.d("Test", _state.value.isLoading.toString() + " isLoading")
+        while (_state.value.isLoading) {
+            _isSearching.update { true }
+        }
         _isSearching.update { true }
         getCities(location)
         delay(1000)
@@ -71,5 +76,9 @@ class SearchDisplayViewModel @Inject constructor(
         weatherScreenPreferencesRepository.putString(locationKey, locationValue)
         weatherScreenPreferencesRepository.putString(longitudeKey, longitudeValue)
         weatherScreenPreferencesRepository.putString(latitudeKey, latitudeValue)
+        Log.d("Test", locationValue)
+        Log.d("Test", longitudeValue)
+        Log.d("Test", latitudeValue)
+        Log.d("Test", weatherScreenPreferencesRepository.getString("location").toString())
     }
 }
