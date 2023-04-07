@@ -10,8 +10,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -29,6 +32,7 @@ fun SearchDisplayScreen(
     val isSearching by viewModel.isSearching.collectAsState()
 
     val scope = rememberCoroutineScope()
+    val focusManager = LocalFocusManager.current
 
     Column(
         modifier = Modifier
@@ -41,6 +45,7 @@ fun SearchDisplayScreen(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = {
                 scope.launch {
+                    focusManager.clearFocus()
                     viewModel.searchLocation(
                         searchText.value
                     )
@@ -73,6 +78,7 @@ fun SearchDisplayScreen(
                                         longitudeValue = city.longitude.toString(),
                                         locationValue = city.name
                                     )
+                                    navController.navigateUp()
                                 })
                                 .padding(bottom = 16.dp)
                         ) {
