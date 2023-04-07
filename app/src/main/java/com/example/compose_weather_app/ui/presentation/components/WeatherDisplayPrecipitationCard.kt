@@ -34,8 +34,8 @@ fun WeatherDisplayPrecipitationCard(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Precipitation", fontWeight = FontWeight.Bold)
-                Text(text = weatherData.precipitation[0].toString(), fontSize = 35.sp)
+                Text(text = "Precipitation Sum", fontWeight = FontWeight.Bold)
+                Text(text = weatherData.precipitation[0].toString() + " mm", fontSize = 35.sp)
             }
             Column() {
                 PrecipitationLoader()
