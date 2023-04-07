@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.compose_weather_app.ui.presentation.components.*
+import com.example.compose_weather_app.ui.presentation.components.weather_display_components.*
 
 @Composable
 fun WeatherDisplayScreen(

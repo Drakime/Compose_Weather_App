@@ -1,4 +1,4 @@
-package com.example.compose_weather_app.ui.presentation.components
+package com.example.compose_weather_app.ui.presentation.components.weather_display_components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search

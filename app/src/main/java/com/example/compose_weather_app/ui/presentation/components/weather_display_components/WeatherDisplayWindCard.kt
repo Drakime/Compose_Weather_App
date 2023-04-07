@@ -1,8 +1,7 @@
-package com.example.compose_weather_app.ui.presentation.components
+package com.example.compose_weather_app.ui.presentation.components.weather_display_components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
