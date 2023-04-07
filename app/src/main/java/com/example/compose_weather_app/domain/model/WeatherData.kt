@@ -5,6 +5,7 @@ import com.example.compose_weather_app.domain.weather.WeatherType
 data class WeatherData(
     val currentTemperature: String,
     val currentWeatherCode: WeatherType,
+    val currentWindSpeed: String,
     val sunrises: List<String>,
     val sunsets: List<String>,
     val precipitation: List<Double>,

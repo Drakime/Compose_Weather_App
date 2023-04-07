@@ -12,6 +12,7 @@ interface WeatherApi {
         @Query("longitude") longitude: String = "-0.13",
         @Query("hourly") hourly: String = "temperature_2m,weathercode",
         @Query("daily") daily: String = "weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,windspeed_10m_max",
+        @Query("current_weather") current_weather: Boolean = true,
         @Query("timezone", encoded = true) timezone: String = "Europe%2FLondon" //  You may want to supply a preference option for the user to set timezone.
     ): WeatherDto
 }

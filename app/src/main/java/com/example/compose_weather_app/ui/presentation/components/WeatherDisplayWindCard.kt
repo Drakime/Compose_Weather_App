@@ -34,7 +34,7 @@ fun WeatherDisplayWindCard(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(text = "Wind Speed", fontWeight = FontWeight.Bold)
-                Text(text = weatherData.dailyMaxWindSpeed[0].toString(), fontSize = 35.sp)
+                Text(text = weatherData.currentWindSpeed, fontSize = 35.sp)
             }
             Column() {
                 WindSpeedLoader()

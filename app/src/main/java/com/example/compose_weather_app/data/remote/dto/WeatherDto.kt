@@ -4,11 +4,14 @@ package com.example.compose_weather_app.data.remote.dto
 import com.example.compose_weather_app.domain.model.WeatherData
 import com.example.compose_weather_app.domain.weather.WeatherType
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
 data class WeatherDto(
+    @Json(name = "current_weather")
+    val currentWeather: CurrentWeather = CurrentWeather(),
     @Json(name = "daily")
     val daily: Daily,
     @Json(name = "daily_units")
@@ -35,25 +38,9 @@ data class WeatherDto(
 
 fun WeatherDto.toWeatherData(): WeatherData {
 
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd" + "'T'" + "HH:00")
-    val currentTime = LocalDateTime.now().format(formatter)
-    var currentTemperature = ""
-    var currentWeatherCode = 0
     var dailyWeatherCode = mutableListOf<WeatherType>()
     var sunrises = mutableListOf<String>()
     var sunsets = mutableListOf<String>()
-
-    for (hour in hourly.time) {
-        var index = hourly.time.indexOf(hour)
-
-        if (hour == currentTime) {
-            currentTemperature = hourly.temperature2m[index].roundToInt().toString()
-            currentWeatherCode = hourly.weathercode[index]
-            break
-        } else {
-            currentTemperature = "N/A"
-        }
-    }
 
     for (weatherCode in daily.weathercode) {
         dailyWeatherCode.add(WeatherType.fromWeatherCode(weatherCode))
@@ -73,8 +60,9 @@ fun WeatherDto.toWeatherData(): WeatherData {
     }
 
     return WeatherData(
-        currentTemperature = currentTemperature,
-        currentWeatherCode = WeatherType.fromWeatherCode(currentWeatherCode),
+        currentTemperature = currentWeather.temperature.roundToInt().toString(),
+        currentWeatherCode = WeatherType.fromWeatherCode(currentWeather.weathercode),
+        currentWindSpeed = currentWeather.windspeed.roundToInt().toString(),
         sunrises = sunrises,
         sunsets = sunsets,
         precipitation = daily.precipitationSum,
