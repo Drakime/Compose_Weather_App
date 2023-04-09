@@ -15,10 +15,7 @@ import androidx.navigation.NavController
 import com.airbnb.lottie.compose.*
 import com.example.compose_weather_app.domain.model.WeatherData
 import com.example.compose_weather_app.ui.presentation.Screen
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.util.*
+import com.example.compose_weather_app.utils.DateUtils
 import kotlin.math.roundToInt
 
 @Composable
@@ -27,6 +24,8 @@ fun WeatherDisplayForecastCard(
     modifier: Modifier = Modifier,
     navController: NavController
 ) {
+    val dateUtils = DateUtils()
+
     Card(
         modifier
             .fillMaxWidth()
@@ -36,7 +35,7 @@ fun WeatherDisplayForecastCard(
             items(weatherData.dailyMaxTemperature.drop(1).size) { item ->
                 Box(
                     modifier = Modifier
-                        .clickable(onClick = { navController.navigate(route = Screen.ForecastDisplayScreen.route) })
+                        .clickable(onClick = { navController.navigate(route = Screen.ForecastDisplayScreen.route + (item + 1)) })
                 ) {
                     Column(
                         modifier
@@ -44,7 +43,7 @@ fun WeatherDisplayForecastCard(
                             .padding(5.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        val dates = getDates()
+                        val dates = dateUtils.getDates().drop(1)
                         Text(text = dates[item])
                         DailyTemperatureLoader(weatherData.dailyWeatherCode[item].iconRes)
                         Text(
@@ -70,37 +69,4 @@ fun DailyTemperatureLoader(@RawRes iconRes: Int) {
         progress = { progress },
         Modifier.size(65.dp)
     )
-}
-
-// Code adapted from Rahul Khatri, from StackOverflow
-// https://stackoverflow.com/a/67418587
-//
-// Returns a list of dates between two dates, as list collection
-fun getDates(inputDate: LocalDate = LocalDate.now()): List<String> {
-    var dates = ArrayList<String>()
-    val input = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    val startDate = inputDate.toString()
-    val endDate = inputDate.plusDays(6).toString()
-    var date1: Date? = null
-    var date2: Date? = null
-
-    try {
-        date1 = input.parse(startDate)
-        date2 = input.parse(endDate)
-    } catch (e: ParseException) {
-        e.printStackTrace()
-    }
-
-    val cal1 = Calendar.getInstance()
-    cal1.time = date1
-    val cal2 = Calendar.getInstance()
-    cal2.time = date2
-
-    while (!cal1.after(cal2)) {
-        val output = SimpleDateFormat("d/M", Locale.getDefault())
-        dates.add(output.format(cal1.time))
-        cal1.add(Calendar.DATE, 1)
-    }
-
-    return dates
 }
