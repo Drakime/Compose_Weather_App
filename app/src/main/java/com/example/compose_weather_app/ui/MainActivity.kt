@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.compose_weather_app.ui.presentation.Screen
 import com.example.compose_weather_app.ui.presentation.forecast_display.ForecastDisplayScreen
 import com.example.compose_weather_app.ui.presentation.search_display.SearchDisplayScreen
@@ -43,9 +45,18 @@ class MainActivity : AppCompatActivity() {
                             SearchDisplayScreen(navController = navController)
                         }
                         composable(
-                            route = Screen.ForecastDisplayScreen.route
-                        ) {
-                            ForecastDisplayScreen(navController = navController)
+                            route = Screen.ForecastDisplayScreen.route + "{index}",
+                            arguments = listOf(
+                                navArgument("index") {
+                                    type = NavType.StringType
+                                    defaultValue = "0"
+                                }
+                            )
+                        ) { backStackEntry ->
+                            ForecastDisplayScreen(
+                                navController = navController,
+                                arguments = backStackEntry.arguments?.getString("index") ?: ""
+                            )
                         }
                     }
                 }
