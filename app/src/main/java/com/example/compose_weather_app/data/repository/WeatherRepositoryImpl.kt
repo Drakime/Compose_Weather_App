@@ -13,8 +13,18 @@ class WeatherRepositoryImpl @Inject constructor(
     override suspend fun getWeather(): WeatherDto {
         val lat = weatherScreenPreferencesRepositoryImpl.getString("latitude")
         val long = weatherScreenPreferencesRepositoryImpl.getString("longitude")
+        val temperatureUnit = weatherScreenPreferencesRepositoryImpl.getString("temperature_unit")
+        val windUnit = weatherScreenPreferencesRepositoryImpl.getString("wind_unit")
+        val precipitationUnit =
+            weatherScreenPreferencesRepositoryImpl.getString("precipitation_unit")
 
-        return api.getWeather(latitude = lat.toString(), longitude = long.toString())
+        return api.getWeather(
+            latitude = lat.toString(),
+            longitude = long.toString(),
+            temperature_unit = temperatureUnit.toString(),
+            windspeed_unit = windUnit.toString(),
+            precipitation_unit = precipitationUnit.toString()
+        )
     }
 
 }

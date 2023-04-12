@@ -17,7 +17,8 @@ import com.example.compose_weather_app.domain.model.WeatherData
 @Composable
 fun WeatherDisplayWindCard(
     weatherData: WeatherData,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    unit: String
 ) {
     Card(
         modifier
@@ -33,7 +34,7 @@ fun WeatherDisplayWindCard(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(text = "Wind Speed", fontWeight = FontWeight.Bold)
-                Text(text = weatherData.currentWindSpeed + " km/h", fontSize = 35.sp)
+                Text(text = weatherData.currentWindSpeed + " $unit", fontSize = 35.sp)
             }
             Column() {
                 WindSpeedLoader()

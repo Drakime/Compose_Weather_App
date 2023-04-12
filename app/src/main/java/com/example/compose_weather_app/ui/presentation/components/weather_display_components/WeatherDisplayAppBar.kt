@@ -19,7 +19,7 @@ fun WeatherDisplayAppBar(navController: NavController) {
             IconButton(onClick = { navController.navigate(route = Screen.SearchDisplayScreen.route) }) {
                 Icon(Icons.Filled.Search, contentDescription = "Search")
             }
-            IconButton(onClick = { /* doSomething() */ }) {
+            IconButton(onClick = { navController.navigate(route = Screen.PreferencesDisplayScreen.route) }) {
                 Icon(Icons.Filled.Settings, contentDescription = "Settings")
             }
         },

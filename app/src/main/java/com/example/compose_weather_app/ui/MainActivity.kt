@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.compose_weather_app.ui.presentation.Screen
 import com.example.compose_weather_app.ui.presentation.forecast_display.ForecastDisplayScreen
+import com.example.compose_weather_app.ui.presentation.preferences_display.PreferencesDisplayScreen
 import com.example.compose_weather_app.ui.presentation.search_display.SearchDisplayScreen
 import com.example.compose_weather_app.ui.presentation.weather_display.WeatherDisplayScreen
 import com.example.compose_weather_app.ui.theme.Material3Theme
@@ -57,6 +58,11 @@ class MainActivity : AppCompatActivity() {
                                 navController = navController,
                                 arguments = backStackEntry.arguments?.getString("index") ?: ""
                             )
+                        }
+                        composable(
+                            route = Screen.PreferencesDisplayScreen.route
+                        ) {
+                            PreferencesDisplayScreen(navController = navController)
                         }
                     }
                 }

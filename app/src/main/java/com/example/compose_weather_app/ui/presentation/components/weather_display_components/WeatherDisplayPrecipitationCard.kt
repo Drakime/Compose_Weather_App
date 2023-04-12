@@ -19,7 +19,8 @@ import com.example.compose_weather_app.domain.model.WeatherData
 @Composable
 fun WeatherDisplayPrecipitationCard(
     weatherData: WeatherData,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    unit: String
 ) {
     Card(
         modifier
@@ -35,7 +36,7 @@ fun WeatherDisplayPrecipitationCard(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(text = "Precipitation Sum", fontWeight = FontWeight.Bold)
-                Text(text = weatherData.precipitation[0].toString() + " mm", fontSize = 35.sp)
+                Text(text = weatherData.precipitation[0].toString() + " $unit", fontSize = 35.sp)
             }
             Column() {
                 PrecipitationLoader()

@@ -7,6 +7,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,10 +23,14 @@ fun WeatherDisplayScreen(
     val scrollState = rememberScrollState()
     val location = viewModel.location
 
+    val windUnit = viewModel.windUnit.collectAsState()
+    val precipitationUnit = viewModel.precipitationUnit.collectAsState()
+
     LaunchedEffect(Unit) {
         viewModel.checkDataStore()
         viewModel.getWeather()
         viewModel.getLocation()
+        viewModel.getDataStoreUnits()
     }
 
     state.weather?.let {
@@ -41,9 +46,9 @@ fun WeatherDisplayScreen(
                 ) {
                     WeatherDisplayTemperatureCard(weatherData = state.weather, location = location)
                     WeatherDisplayForecastCard(weatherData = state.weather, navController = navController)
-                    WeatherDisplayWindCard(weatherData = state.weather)
+                    WeatherDisplayWindCard(weatherData = state.weather, unit = windUnit.value)
                     WeatherDisplaySunriseSunsetCard(weatherData = state.weather)
-                    WeatherDisplayPrecipitationCard(weatherData = state.weather)
+                    WeatherDisplayPrecipitationCard(weatherData = state.weather, unit = precipitationUnit.value)
                 }
             }
         }
