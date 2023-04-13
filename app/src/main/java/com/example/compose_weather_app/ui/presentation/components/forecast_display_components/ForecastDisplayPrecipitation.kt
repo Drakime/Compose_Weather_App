@@ -23,6 +23,6 @@ fun ForecastDisplayPrecipitation(
             .padding(5.dp)
     ) {
         Text(text = "Precipitation Sum")
-        Text(text = weatherData.precipitation[index].toString() + " $unit")
+        Text(text = weatherData.precipitation[index].toString() + " ${unit.value}")
     }
 }

@@ -33,6 +33,7 @@ fun ForecastDisplayScreen(
 
     LaunchedEffect(Unit) {
         viewModel.getWeather()
+        viewModel.getDataStoreUnits()
     }
 
     state.weather?.let {

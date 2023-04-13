@@ -21,6 +21,6 @@ fun ForecastDisplayWind(
             .padding(5.dp)
     ) {
         Text(text = "Max Wind Speed")
-        Text(text = weatherData.dailyMaxWindSpeed[index].toString() + " $unit")
+        Text(text = weatherData.dailyMaxWindSpeed[index].toString() + " ${unit.value}")
     }
 }
