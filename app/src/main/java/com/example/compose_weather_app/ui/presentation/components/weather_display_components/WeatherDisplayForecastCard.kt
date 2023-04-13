@@ -32,10 +32,10 @@ fun WeatherDisplayForecastCard(
             .padding(top = 10.dp)
     ) {
         LazyRow() {
-            items(weatherData.dailyMaxTemperature.drop(1).size) { item ->
+            items(weatherData.dailyMaxTemperature.size) { item ->
                 Box(
                     modifier = Modifier
-                        .clickable(onClick = { navController.navigate(route = Screen.ForecastDisplayScreen.route + (item + 1)) })
+                        .clickable(onClick = { navController.navigate(route = Screen.ForecastDisplayScreen.route + (item)) })
                 ) {
                     Column(
                         modifier
@@ -43,7 +43,7 @@ fun WeatherDisplayForecastCard(
                             .padding(5.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        val dates = dateUtils.getDates().drop(1)
+                        val dates = dateUtils.getDates()
                         Text(text = dates[item])
                         DailyTemperatureLoader(weatherData.dailyWeatherCode[item].iconRes)
                         Text(
