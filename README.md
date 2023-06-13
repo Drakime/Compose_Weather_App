@@ -86,12 +86,10 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<p align="center">
-  <img src="img/home-screen.png" height="600px">
-  &nbsp; &nbsp; &nbsp; &nbsp;
-  <img src="img/search-screen.png" height="600px">
-  &nbsp; &nbsp; &nbsp; &nbsp;
-  <img src="img/settings-screen.png" height="600px">
+<p align="center" width="100%">
+  <img src="img/home-screen.png" width="33%">
+  <img src="img/search-screen.png" width="33%">
+  <img src="img/settings-screen.png" width="33%">
 </p>
 
 The APIs used in the project are provided by Open-Meteo. They are free for non-commercial use and are as follows:
